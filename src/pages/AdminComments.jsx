@@ -29,7 +29,7 @@ export default function AdminComments() {
   }
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this comment permanently?')) return
+    if (!confirm('Delete this evidence report permanently?')) return
     try {
       await api.deleteComment(id)
       setSuccess(true)
@@ -46,8 +46,8 @@ export default function AdminComments() {
 
       <main className="flex h-screen min-w-0 flex-1 flex-col md:ml-64">
         <AdminPageHeader
-          title="Manage Comments"
-          description="Remove comments that are not suitable"
+          title="Manage evidence reports"
+          description="Review and remove inappropriate or false reports"
         />
 
         <div className="flex-1 space-y-6 overflow-y-auto p-6 sm:p-8">

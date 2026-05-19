@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Mail, Phone, MapPin, Briefcase } from 'lucide-react'
+import { ArrowLeft, Mail, Phone, MapPin, Skull } from 'lucide-react'
+import { UI } from '../constants'
 import { api } from '../api'
 import AppNavbar from '../components/AppNavbar'
 import MemberAvatar from '../components/MemberAvatar'
@@ -20,12 +21,12 @@ export default function MemberDetail() {
         setError(null)
         const data = await api.getMember(memberId)
         if (!data) {
-          setError('Team member not found')
+          setError(`${UI.criminalProfile} not found`)
           return
         }
         setMember(data)
       } catch (err) {
-        setError(err.message || 'Failed to load team member')
+        setError(err.message || `Failed to load ${UI.criminalProfile.toLowerCase()}`)
       } finally {
         setLoading(false)
       }
@@ -35,7 +36,7 @@ export default function MemberDetail() {
   }, [memberId])
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="page-shell">
       <AppNavbar />
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -49,39 +50,39 @@ export default function MemberDetail() {
         </button>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading profile...</p>
+          <p className="text-muted-foreground">Loading dossier...</p>
         ) : error ? (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
-            <p className="font-medium text-red-800">{error}</p>
+          <div className="alert-error text-center">
+            <p className="font-medium">{error}</p>
             <Link to="/" className="mt-4 inline-block text-sm text-accent hover:underline">
               Return to home
             </Link>
           </div>
         ) : (
           <>
-            <article className="mb-8 overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+            <article className="horror-card mb-8 overflow-hidden shadow-glow-sm">
               <MemberAvatar
                 member={member}
                 objectPosition="top"
                 className="h-80 w-full sm:h-[26rem] md:h-[28rem]"
               />
-              <div className="border-b border-border bg-gradient-to-r from-accent/10 to-primary/10 px-6 py-6 sm:px-8">
-                <h1 className="text-3xl font-bold text-foreground">{member.name}</h1>
+              <div className="horror-card-header px-6 py-6 sm:px-8">
+                <h1 className="horror-heading text-3xl">{member.name}</h1>
                 {member.role && (
                   <p className="mt-1 text-lg font-medium text-accent">{member.role}</p>
                 )}
                 {member.teams?.name && (
                   <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                    <Briefcase className="h-4 w-4" />
+                    <Skull className="h-4 w-4" />
                     {member.teams.name}
                     {member.teams.department && ` · ${member.teams.department}`}
                   </p>
                 )}
               </div>
 
-              <div className="space-y-6 px-6 py-6 sm:px-8 sm:py-8">
+              <div className="horror-card-body space-y-6 sm:py-8">
                 {member.bio && (
-                  <p className="text-foreground leading-relaxed">{member.bio}</p>
+                  <p className="leading-relaxed">{member.bio}</p>
                 )}
 
                 <div className="space-y-3 text-sm">

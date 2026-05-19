@@ -1,8 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../authStore'
-import { Users, MessageCircle, Settings, LogOut, Menu, X } from 'lucide-react'
+import { FolderOpen, Skull, MessageCircle, LogOut, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { ADMIN_HEADER_HEIGHT, ADMIN_HEADER_INNER } from './adminHeaderStyles'
+import { APP_LOGO_LETTER, UI } from '../constants'
 
 export default function AdminSidebar() {
   const navigate = useNavigate()
@@ -11,9 +12,9 @@ export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuItems = [
-    { path: '/admin/teams', label: 'Teams', icon: Users },
-    { path: '/admin/members', label: 'Members', icon: Users },
-    { path: '/admin/comments', label: 'Comments', icon: MessageCircle },
+    { path: '/admin/teams', label: UI.categories, icon: FolderOpen },
+    { path: '/admin/members', label: UI.criminalProfiles, icon: Skull },
+    { path: '/admin/comments', label: 'Evidence reports', icon: MessageCircle },
   ]
 
   const isActive = (path) => location.pathname === path
@@ -30,44 +31,42 @@ export default function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-card border border-border rounded-lg"
+        className="fixed left-4 top-4 z-50 rounded-lg border border-border bg-card p-2 md:hidden"
       >
         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-card border-r border-border transition-transform duration-300 z-40 md:z-0 ${
+        className={`fixed left-0 top-0 z-40 h-screen w-64 border-r border-border bg-card transition-transform duration-300 md:z-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
+        <div className="flex h-full flex-col">
           <div className={`${ADMIN_HEADER_HEIGHT} border-b border-border`}>
             <div className={`${ADMIN_HEADER_INNER} gap-3`}>
-              <div className="h-10 w-10 rounded-lg bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg">
-                A
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-accent/40 bg-accent/20 font-display text-lg font-bold text-accent">
+                {APP_LOGO_LETTER}
               </div>
               <div>
-                <p className="font-bold text-foreground leading-tight">Admin Panel</p>
-                <p className="text-xs text-muted-foreground mt-1">Team Management</p>
+                <p className="font-bold leading-tight text-foreground">Admin Panel</p>
+                <p className="mt-1 text-xs text-muted-foreground">Crime archive management</p>
               </div>
             </div>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto p-4 space-y-2">
+          <nav className="flex-1 space-y-2 overflow-y-auto p-4">
             {menuItems.map((item) => {
               const Icon = item.icon
               const active = isActive(item.path)
               return (
                 <button
                   key={item.path}
+                  type="button"
                   onClick={() => handleNavigation(item.path)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 transition-colors ${
                     active
                       ? 'bg-accent text-accent-foreground'
                       : 'text-foreground hover:bg-accent/10'
@@ -80,16 +79,16 @@ export default function AdminSidebar() {
             })}
           </nav>
 
-          {/* User Info & Logout */}
-          <div className="p-4 border-t border-border space-y-3">
-            <div className="px-4 py-3 bg-accent/10 rounded-lg">
-              <p className="text-xs text-muted-foreground uppercase font-semibold">Logged in as</p>
-              <p className="text-sm font-semibold text-foreground mt-1">{user?.fullName}</p>
-              <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
+          <div className="space-y-3 border-t border-border p-4">
+            <div className="rounded-lg bg-accent/10 px-4 py-3">
+              <p className="text-xs font-semibold uppercase text-muted-foreground">Logged in as</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">{user?.fullName}</p>
+              <p className="text-xs capitalize text-muted-foreground">{user?.role}</p>
             </div>
             <button
+              type="button"
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-2 text-foreground hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-2 text-foreground transition-colors hover:bg-red-950/50 hover:text-red-400"
             >
               <LogOut className="h-5 w-5" />
               <span className="font-medium">Logout</span>
@@ -98,11 +97,12 @@ export default function AdminSidebar() {
         </div>
       </aside>
 
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/20 md:hidden z-30"
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
           onClick={() => setIsOpen(false)}
+          onKeyDown={() => {}}
+          role="presentation"
         />
       )}
     </>

@@ -5,6 +5,7 @@ import AdminSidebar from '../components/AdminSidebar'
 import AdminPageHeader from '../components/AdminPageHeader'
 import MemberAvatar from '../components/MemberAvatar'
 import MemberAvatarUpload from '../components/MemberAvatarUpload'
+import { UI } from '../constants'
 
 export default function AdminMembers() {
   const [teams, setTeams] = useState([])
@@ -129,7 +130,7 @@ export default function AdminMembers() {
   }
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this member?')) return
+    if (!confirm(`Delete this ${UI.criminalProfile.toLowerCase()}?`)) return
     try {
       await api.deleteMember(id)
       setSuccess(true)
@@ -163,8 +164,8 @@ export default function AdminMembers() {
       {/* Main Content */}
       <main className="flex h-screen min-w-0 flex-1 flex-col md:ml-64">
         <AdminPageHeader
-          title="Manage Members"
-          description="Add and manage team members"
+          title={`Manage ${UI.criminalProfiles}`}
+          description="Upload and edit criminal dossiers with photos and case details"
         />
 
         <div className="flex-1 overflow-y-auto p-6 sm:p-8">
@@ -192,18 +193,18 @@ export default function AdminMembers() {
 
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">Loading teams...</p>
+              <p className="text-muted-foreground">Loading categories...</p>
             </div>
           ) : teams.length === 0 ? (
             <div className="text-center py-12 p-6 bg-card border border-border rounded-lg">
-              <p className="text-muted-foreground mb-4">No teams available</p>
-              <p className="text-sm text-muted-foreground">Create a team first before adding members</p>
+              <p className="text-muted-foreground mb-4">No categories available</p>
+              <p className="text-sm text-muted-foreground">Create a crime category first before adding profiles</p>
             </div>
           ) : (
             <>
               {/* Team Selector */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-foreground mb-3">Select Team</label>
+                <label className="mb-3 block text-sm font-medium text-foreground">Select {UI.category}</label>
                 <select
                   value={selectedTeamId || ''}
                   onChange={(e) => setSelectedTeamId(e.target.value)}
@@ -221,11 +222,11 @@ export default function AdminMembers() {
               {showForm && (
                 <div className="mb-8 p-6 bg-card border border-border rounded-lg">
                   <h2 className="text-xl font-bold text-foreground mb-6">
-                    {editingId ? 'Edit Member' : 'Add New Member'}
+                    {editingId ? `Edit ${UI.criminalProfile}` : `Add ${UI.criminalProfile}`}
                   </h2>
                   <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Name</label>
+                      <label className="mb-2 block text-sm font-medium text-foreground">Full name</label>
                       <input
                         type="text"
                         name="name"
@@ -233,18 +234,18 @@ export default function AdminMembers() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                        placeholder="Full name"
+                        placeholder="Suspect / convict name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Role</label>
+                      <label className="mb-2 block text-sm font-medium text-foreground">{UI.charges}</label>
                       <input
                         type="text"
                         name="role"
                         value={formData.role}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                        placeholder="e.g., Engineer"
+                        placeholder="e.g., Serial murder, Armed robbery"
                       />
                     </div>
                     <div>
@@ -270,7 +271,7 @@ export default function AdminMembers() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Location</label>
+                      <label className="mb-2 block text-sm font-medium text-foreground">{UI.lastKnownLocation}</label>
                       <input
                         type="text"
                         name="location"
@@ -289,13 +290,13 @@ export default function AdminMembers() {
                       onUploadingChange={setAvatarUploading}
                     />
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-foreground mb-2">Bio</label>
+                      <label className="mb-2 block text-sm font-medium text-foreground">{UI.caseSummary}</label>
                       <textarea
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-                        placeholder="Brief bio"
+                        placeholder="Case details, conviction status, notable facts..."
                         rows="3"
                       />
                     </div>
@@ -305,7 +306,7 @@ export default function AdminMembers() {
                         disabled={avatarUploading}
                         className="px-6 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 font-medium transition-colors disabled:opacity-50"
                       >
-                        {editingId ? 'Update Member' : 'Add Member'}
+                        {editingId ? 'Update profile' : 'Add profile'}
                       </button>
                       <button
                         type="button"
@@ -326,15 +327,15 @@ export default function AdminMembers() {
                   className="mb-8 flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 font-medium transition-colors"
                 >
                   <Plus className="h-5 w-5" />
-                  Add Member
+                  Add criminal profile
                 </button>
               )}
 
               {/* Members List */}
               {members.length === 0 ? (
                 <div className="text-center py-12 p-6 bg-card border border-border rounded-lg">
-                  <p className="text-muted-foreground mb-4">No members in this team</p>
-                  <p className="text-sm text-muted-foreground">Add your first member to get started</p>
+                  <p className="text-muted-foreground mb-4">No profiles in this category</p>
+                  <p className="text-sm text-muted-foreground">Add your first criminal profile to get started</p>
                 </div>
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

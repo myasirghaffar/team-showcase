@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../authStore'
-import { LogIn, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'
+import { AlertCircle, CheckCircle, Eye, EyeOff, Skull } from 'lucide-react'
+import { APP_NAME } from '../constants'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -43,14 +44,14 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+    <div className="page-shell flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-accent mb-4">
-            <LogIn className="h-6 w-6 text-accent-foreground" />
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg border border-accent/40 bg-accent/20">
+            <Skull className="h-6 w-6 text-accent" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground">Welcome Back</h1>
-          <p className="text-muted-foreground mt-2">Sign in to your account to continue</p>
+          <h1 className="horror-heading text-3xl">Enter the archive</h1>
+          <p className="mt-2 text-muted-foreground">Sign in to {APP_NAME} to submit evidence reports</p>
         </div>
 
         {successMessage && (
@@ -73,7 +74,7 @@ export default function Login() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-8 shadow-lg">
+        <form onSubmit={handleSubmit} className="horror-card rounded-xl p-8 shadow-lg">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">

@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, X, AlertCircle, CheckCircle } from 'lucide-react'
 import { api } from '../api'
 import AdminSidebar from '../components/AdminSidebar'
 import AdminPageHeader from '../components/AdminPageHeader'
+import { CRIME_CATEGORIES, UI } from '../constants'
 
 export default function AdminTeams() {
   const [teams, setTeams] = useState([])
@@ -63,7 +64,7 @@ export default function AdminTeams() {
   }
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this team?')) return
+    if (!confirm(`Delete this ${UI.category.toLowerCase()}? All criminal profiles in it will be removed.`)) return
     try {
       await api.deleteTeam(id)
       setSuccess(true)
@@ -87,8 +88,8 @@ export default function AdminTeams() {
       {/* Main Content */}
       <main className="flex h-screen min-w-0 flex-1 flex-col md:ml-64">
         <AdminPageHeader
-          title="Manage Teams"
-          description="Create, edit, and manage teams"
+          title={`Manage ${UI.categories}`}
+          description="Create crime categories such as Murderer, Rapist, Serial Killer"
         />
 
         <div className="flex-1 overflow-y-auto p-6 sm:p-8">
@@ -118,30 +119,40 @@ export default function AdminTeams() {
           {showForm && (
             <div className="mb-8 p-6 bg-card border border-border rounded-lg">
               <h2 className="text-xl font-bold text-foreground mb-6">
-                {editingId ? 'Edit Team' : 'Add New Team'}
+                {editingId ? `Edit ${UI.category}` : `Add ${UI.category}`}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Team Name</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">
+                    {UI.category} name
+                  </label>
                   <input
                     type="text"
                     name="name"
+                    list="crime-category-suggestions"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="e.g., Engineering"
+                    className="horror-input"
+                    placeholder="e.g., Murderer, Rapist"
                   />
+                  <datalist id="crime-category-suggestions">
+                    {CRIME_CATEGORIES.map((cat) => (
+                      <option key={cat} value={cat} />
+                    ))}
+                  </datalist>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Department</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">
+                    Classification (optional)
+                  </label>
                   <input
                     type="text"
                     name="department"
                     value={formData.department}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="e.g., Technology"
+                    className="horror-input"
+                    placeholder="e.g., Violent crime, Sexual offense"
                   />
                 </div>
                 <div>
@@ -152,7 +163,7 @@ export default function AdminTeams() {
                     onChange={handleChange}
                     rows="4"
                     className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-                    placeholder="Describe the team..."
+                    placeholder="Brief notes about this category..."
                   />
                 </div>
                 <div className="flex gap-3 pt-4">
@@ -160,7 +171,7 @@ export default function AdminTeams() {
                     type="submit"
                     className="px-6 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 font-medium transition-colors"
                   >
-                    {editingId ? 'Update Team' : 'Create Team'}
+                    {editingId ? `Update ${UI.category}` : `Create ${UI.category}`}
                   </button>
                   <button
                     type="button"
@@ -181,19 +192,19 @@ export default function AdminTeams() {
               className="mb-8 flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 font-medium transition-colors"
             >
               <Plus className="h-5 w-5" />
-              Add Team
+              Add {UI.category}
             </button>
           )}
 
           {/* Teams List */}
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">Loading teams...</p>
+              <p className="text-muted-foreground">Loading categories...</p>
             </div>
           ) : teams.length === 0 ? (
             <div className="text-center py-12 p-6 bg-card border border-border rounded-lg">
-              <p className="text-muted-foreground mb-4">No teams yet</p>
-              <p className="text-sm text-muted-foreground">Create your first team to get started</p>
+              <p className="text-muted-foreground mb-4">No categories yet</p>
+              <p className="text-sm text-muted-foreground">Create your first crime category to get started</p>
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -209,14 +220,14 @@ export default function AdminTeams() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(team)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                      className="flex flex-1 items-center justify-center gap-2 rounded bg-accent/15 px-3 py-2 text-accent transition-colors hover:bg-accent/25"
                     >
                       <Edit2 className="h-4 w-4" />
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(team.id)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors"
+                      className="flex flex-1 items-center justify-center gap-2 rounded bg-red-950/50 px-3 py-2 text-red-400 transition-colors hover:bg-red-950/80"
                     >
                       <Trash2 className="h-4 w-4" />
                       Delete

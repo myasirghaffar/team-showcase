@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react'
+import { FileWarning, Mail, Phone, MapPin } from 'lucide-react'
+import { UI } from '../constants'
 import { api } from '../api'
 import MemberAvatar from './MemberAvatar'
 
@@ -13,36 +14,38 @@ export default function PublicMemberCard({ member }) {
         const count = await api.getCommentCount(member.id)
         setCommentCount(count)
       } catch (err) {
-        console.error('[v0] Error loading comment count:', err)
+        console.error('[crime-dossier] Error loading comment count:', err)
       }
     }
     loadCount()
   }, [member.id])
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg">
+    <div className="horror-card overflow-hidden">
       <Link to={`/members/${member.id}`} className="block">
         <MemberAvatar
           member={member}
           objectPosition="top"
           className="h-56 w-full sm:h-64"
         />
-        <div className="border-b border-border bg-gradient-to-r from-accent/10 to-primary/10 px-6 py-4">
-          <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
+        <div className="horror-card-header">
+          <h3 className="text-lg font-semibold">{member.name}</h3>
           {member.role && <p className="text-sm font-medium text-accent">{member.role}</p>}
         </div>
       </Link>
 
-      <div className="space-y-4 p-6">
+      <div className="horror-card-body space-y-4">
         {member.bio && (
-          <p className="line-clamp-3 text-sm text-muted-foreground">{member.bio}</p>
+          <p className="line-clamp-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
+            {member.bio}
+          </p>
         )}
 
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
           {member.email && (
             <a
               href={`mailto:${member.email}`}
-              className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-accent"
+              className="flex items-center gap-2 transition-colors hover:text-accent"
               onClick={(e) => e.stopPropagation()}
             >
               <Mail className="h-4 w-4" />
@@ -52,7 +55,7 @@ export default function PublicMemberCard({ member }) {
           {member.phone && (
             <a
               href={`tel:${member.phone}`}
-              className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-accent"
+              className="flex items-center gap-2 transition-colors hover:text-accent"
               onClick={(e) => e.stopPropagation()}
             >
               <Phone className="h-4 w-4" />
@@ -60,7 +63,7 @@ export default function PublicMemberCard({ member }) {
             </a>
           )}
           {member.location && (
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4" />
               {member.location}
             </div>
@@ -72,8 +75,8 @@ export default function PublicMemberCard({ member }) {
             to={`/members/${member.id}`}
             className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
           >
-            <MessageCircle className="h-4 w-4" />
-            Comments ({commentCount})
+            <FileWarning className="h-4 w-4" />
+            {UI.reports} ({commentCount})
           </Link>
         </div>
       </div>

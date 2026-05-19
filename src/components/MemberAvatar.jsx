@@ -31,7 +31,7 @@ export default function MemberAvatar({
   return (
     <img
       src={src}
-      alt={member?.name ? `${member.name} profile` : 'Team member'}
+      alt={member?.name ? `${member.name} — criminal dossier` : 'Criminal profile'}
       className={`object-cover ${positionClass} ${className}`}
       onError={() => setFailed(true)}
     />

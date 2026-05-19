@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { ImagePlus, MessageCircle, Trash2, Video, X } from 'lucide-react'
+import { ImagePlus, FileWarning, Trash2, Video, X } from 'lucide-react'
+import { UI } from '../constants'
 import { api } from '../api'
 import { useAuthStore } from '../authStore'
 import CommentMedia, { getCommentDisplayName } from './CommentMedia'
@@ -78,7 +79,7 @@ export default function MemberCommentSection({ memberId }) {
 
     const text = commentText.trim()
     if (!text && !mediaFile) {
-      setFormError('Add a message, photo, or video before submitting.')
+      setFormError('Add a report, photo, or video evidence before submitting.')
       return
     }
 
@@ -123,7 +124,7 @@ export default function MemberCommentSection({ memberId }) {
 
   const handleDelete = async (comment) => {
     if (!canDeleteComment(comment, user)) return
-    if (!confirm('Delete this comment?')) return
+    if (!confirm('Delete this evidence report?')) return
 
     setDeletingId(comment.id)
     try {
@@ -138,14 +139,14 @@ export default function MemberCommentSection({ memberId }) {
   }
 
   return (
-    <section className="rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8">
+    <section className="horror-card p-6 sm:p-8">
       <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-foreground">
-        <MessageCircle className="h-5 w-5 text-accent" />
-        Comments ({comments.length})
+        <FileWarning className="h-5 w-5 text-accent" />
+        {UI.evidence} & {UI.reports} ({comments.length})
       </h2>
 
       {loadingComments ? (
-        <p className="text-sm text-muted-foreground">Loading comments...</p>
+        <p className="text-sm text-muted-foreground">Loading reports...</p>
       ) : comments.length > 0 ? (
         <div className="mb-8 space-y-4">
           {comments.map((comment) => (
@@ -169,8 +170,8 @@ export default function MemberCommentSection({ memberId }) {
                     type="button"
                     onClick={() => handleDelete(comment)}
                     disabled={deletingId === comment.id}
-                    className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
-                    title="Delete comment"
+                    className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-red-400 transition-colors hover:bg-red-950/50 disabled:opacity-50"
+                    title="Delete report"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     {deletingId === comment.id ? 'Deleting...' : 'Delete'}
@@ -186,12 +187,12 @@ export default function MemberCommentSection({ memberId }) {
         </div>
       ) : (
         <p className="mb-8 text-sm text-muted-foreground">
-          No comments yet. Be the first to share your thoughts.
+          No reports yet. Be the first to submit evidence or information.
         </p>
       )}
 
       <form onSubmit={handleSubmitComment} className="space-y-4 border-t border-border pt-6">
-        <h3 className="text-sm font-semibold text-foreground">Leave a comment</h3>
+        <h3 className="text-sm font-semibold text-foreground">Submit evidence report</h3>
 
         {user ? (
           <label className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
@@ -205,18 +206,18 @@ export default function MemberCommentSection({ memberId }) {
           </label>
         ) : (
           <p className="text-xs text-muted-foreground">
-            You are commenting as Anonymous. You can delete your comment from this browser later.
+            You are reporting as Anonymous. You can delete your report from this browser later.
           </p>
         )}
 
         {user && !postAnonymously && (
           <p className="text-xs text-muted-foreground">
-            Commenting as <span className="font-medium text-foreground">{user.fullName}</span>
+            Reporting as <span className="font-medium text-foreground">{user.fullName}</span>
           </p>
         )}
 
         <textarea
-          placeholder="Share your thoughts..."
+          placeholder="Describe what you know — include dates, locations, witnesses..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           rows="4"
@@ -240,7 +241,7 @@ export default function MemberCommentSection({ memberId }) {
             className="inline-flex items-center gap-2 rounded-lg border border-input px-3 py-2 text-sm font-medium transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             <ImagePlus className="h-4 w-4" />
-            Add photo
+            Photo evidence
           </button>
           <button
             type="button"
@@ -249,7 +250,7 @@ export default function MemberCommentSection({ memberId }) {
             className="inline-flex items-center gap-2 rounded-lg border border-input px-3 py-2 text-sm font-medium transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             <Video className="h-4 w-4" />
-            Add video
+            Video evidence
           </button>
         </div>
 
@@ -278,7 +279,7 @@ export default function MemberCommentSection({ memberId }) {
           disabled={submitting}
           className="w-full rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90 disabled:opacity-50 sm:w-auto sm:min-w-[160px]"
         >
-          {submitting ? 'Posting...' : 'Post Comment'}
+          {submitting ? 'Submitting...' : 'Submit report'}
         </button>
       </form>
     </section>

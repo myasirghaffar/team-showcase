@@ -27,7 +27,7 @@ export default function MemberAvatarUpload({
   }, [previewUrl])
 
   const displayUrl =
-    previewUrl || value || getMemberAvatarUrl({ name: memberName || 'Member', avatar: '' })
+    previewUrl || value || getMemberAvatarUrl({ name: memberName || 'Suspect', avatar: '' })
 
   const setPreview = (url) => {
     setPreviewUrl((prev) => {
@@ -143,7 +143,7 @@ export default function MemberAvatarUpload({
 
           <p className="text-xs text-muted-foreground">
             Upload JPG, PNG, WebP, or GIF (max 5 MB). Leave empty for an auto-generated avatar from
-            the member&apos;s name.
+            the suspect&apos;s name.
           </p>
         </div>
       </div>
