@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Users } from 'lucide-react'
+import { APP_NAME } from '../constants'
 
 function Layout({ children }) {
   const location = useLocation()
@@ -10,7 +11,7 @@ function Layout({ children }) {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <Users className="w-6 h-6 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Team Showcase</h1>
+            <h1 className="text-2xl font-bold text-foreground">{APP_NAME}</h1>
           </Link>
           <nav className="flex gap-6">
             <Link
@@ -37,7 +38,7 @@ function Layout({ children }) {
 
       <footer className="border-t border-border bg-secondary/50 mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Team Showcase. All rights reserved.</p>
+          <p>&copy; 2026 {APP_NAME}. All rights reserved.</p>
         </div>
       </footer>
     </div>

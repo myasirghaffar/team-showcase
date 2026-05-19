@@ -18,8 +18,22 @@ export default function Signup() {
     setLoading(true)
 
     try {
-      await signUp(email, password, fullName)
-      navigate('/account')
+      const result = await signUp(email, password, fullName)
+      if (result?.needsEmailVerification) {
+        clearError()
+        navigate('/login', {
+          replace: true,
+          state: {
+            email,
+            message:
+              'We sent a verification link to your email. Open it to activate your account, then sign in with the password you just created.',
+          },
+        })
+        return
+      }
+      if (result?.user) {
+        navigate('/account')
+      }
     } catch (err) {
       console.error('[auth] Sign up failed:', err)
     } finally {

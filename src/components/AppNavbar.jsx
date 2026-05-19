@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { User } from 'lucide-react'
 import { useAuthStore } from '../authStore'
+import { APP_LOGO_LETTER, APP_NAME } from '../constants'
 
 export default function AppNavbar() {
   const navigate = useNavigate()
@@ -20,9 +21,9 @@ export default function AppNavbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-bold text-accent-foreground">
-            T
+            {APP_LOGO_LETTER}
           </div>
-          <span className="text-xl font-bold text-foreground">Team Showcase</span>
+          <span className="text-xl font-bold text-foreground">{APP_NAME}</span>
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-4">
@@ -31,15 +32,24 @@ export default function AppNavbar() {
               <Link
                 to="/account"
                 title="My profile"
-                aria-label="My profile"
+                aria-label={`My profile (${user.fullName})`}
                 aria-current={isAccountPage ? 'page' : undefined}
-                className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+                className={`flex max-w-[11rem] items-center gap-2 rounded-full py-1.5 pl-1.5 pr-3 transition-colors sm:max-w-xs ${
                   isAccountPage
-                    ? 'bg-accent text-accent-foreground ring-2 ring-accent ring-offset-2 ring-offset-background'
+                    ? 'bg-accent/10 text-accent ring-2 ring-accent ring-offset-2 ring-offset-background'
                     : 'text-foreground hover:bg-accent/10'
                 }`}
               >
-                <User className="h-5 w-5" />
+                <span
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                    isAccountPage
+                      ? 'bg-accent text-accent-foreground'
+                      : 'bg-accent/10 text-accent'
+                  }`}
+                >
+                  <User className="h-4 w-4" />
+                </span>
+                <span className="truncate text-sm font-medium">{user.fullName}</span>
               </Link>
               {user.role === 'admin' && (
                 <button

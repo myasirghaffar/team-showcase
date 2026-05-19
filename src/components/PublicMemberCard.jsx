@@ -10,7 +10,7 @@ export default function PublicMemberCard({ member }) {
   useEffect(() => {
     const loadCount = async () => {
       try {
-        const count = await api.getApprovedCommentCount(member.id)
+        const count = await api.getCommentCount(member.id)
         setCommentCount(count)
       } catch (err) {
         console.error('[v0] Error loading comment count:', err)
@@ -22,7 +22,11 @@ export default function PublicMemberCard({ member }) {
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg">
       <Link to={`/members/${member.id}`} className="block">
-        <MemberAvatar member={member} className="h-48 w-full" />
+        <MemberAvatar
+          member={member}
+          objectPosition="top"
+          className="h-56 w-full sm:h-64"
+        />
         <div className="border-b border-border bg-gradient-to-r from-accent/10 to-primary/10 px-6 py-4">
           <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
           {member.role && <p className="text-sm font-medium text-accent">{member.role}</p>}

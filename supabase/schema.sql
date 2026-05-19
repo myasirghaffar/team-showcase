@@ -26,10 +26,13 @@ CREATE TABLE team_members (
 CREATE TABLE team_member_comments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   team_member_id UUID NOT NULL REFERENCES team_members(id) ON DELETE CASCADE,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  comment TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  name TEXT,
+  email TEXT,
+  comment TEXT,
+  media_url TEXT,
+  media_type TEXT CHECK (media_type IS NULL OR media_type IN ('image', 'video')),
+  status TEXT NOT NULL DEFAULT 'approved' CHECK (status IN ('pending', 'approved', 'rejected')),
   created_at TIMESTAMPTZ DEFAULT now()
 );
 

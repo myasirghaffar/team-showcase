@@ -4,6 +4,7 @@ import { api } from '../api'
 import { Users, MessageCircle, Star, ArrowRight, Briefcase, Target, Zap } from 'lucide-react'
 import PublicMemberCard from '../components/PublicMemberCard'
 import AppNavbar from '../components/AppNavbar'
+import { APP_NAME } from '../constants'
 import { useAuthStore } from '../authStore'
 
 export default function LandingPage() {
@@ -97,38 +98,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 sm:py-24 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12 text-center">Why Our Team Stands Out</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Zap,
-                title: 'Innovation',
-                description: 'We push boundaries and embrace new ideas to stay ahead of the curve.',
-              },
-              {
-                icon: Target,
-                title: 'Excellence',
-                description: 'Every team member is committed to delivering their absolute best work.',
-              },
-              {
-                icon: Users,
-                title: 'Collaboration',
-                description: 'We work together seamlessly to achieve extraordinary results.',
-              },
-            ].map((feature, i) => (
-              <div key={i} className="p-8 bg-card border border-border rounded-lg hover:border-accent transition-colors group">
-                <feature.icon className="h-12 w-12 text-accent mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Teams Section */}
       <section id="teams-section" className="py-16 sm:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,6 +167,40 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Features Section */}
+      <section className="py-16 sm:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12 text-center">Why Our Team Stands Out</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Zap,
+                title: 'Innovation',
+                description: 'We push boundaries and embrace new ideas to stay ahead of the curve.',
+              },
+              {
+                icon: Target,
+                title: 'Excellence',
+                description: 'Every team member is committed to delivering their absolute best work.',
+              },
+              {
+                icon: Users,
+                title: 'Collaboration',
+                description: 'We work together seamlessly to achieve extraordinary results.',
+              },
+            ].map((feature, i) => (
+              <div key={i} className="p-8 bg-card border border-border rounded-lg hover:border-accent transition-colors group">
+                <feature.icon className="h-12 w-12 text-accent mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      
+
       {/* Testimonials Section */}
       <section className="py-16 sm:py-24 border-b border-border bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -256,7 +259,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-card border-t border-border py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
-          <p>&copy; 2026 Team Showcase. All rights reserved.</p>
+          <p>&copy; 2026 {APP_NAME}. All rights reserved.</p>
         </div>
       </footer>
     </div>

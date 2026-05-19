@@ -2,7 +2,18 @@ import { useState } from 'react'
 import { User } from 'lucide-react'
 import { getMemberAvatarUrl } from '../utils/memberAvatar'
 
-export default function MemberAvatar({ member, className = '', imageClassName = '' }) {
+export default function MemberAvatar({
+  member,
+  className = '',
+  imageClassName = '',
+  objectPosition = 'center',
+}) {
+  const positionClass =
+    objectPosition === 'top'
+      ? 'object-top'
+      : objectPosition === 'bottom'
+        ? 'object-bottom'
+        : 'object-center'
   const [failed, setFailed] = useState(false)
   const src = getMemberAvatarUrl(member)
 
@@ -21,7 +32,7 @@ export default function MemberAvatar({ member, className = '', imageClassName = 
     <img
       src={src}
       alt={member?.name ? `${member.name} profile` : 'Team member'}
-      className={`object-cover ${className}`}
+      className={`object-cover ${positionClass} ${className}`}
       onError={() => setFailed(true)}
     />
   )

@@ -344,7 +344,11 @@ export default function AdminMembers() {
                       className="grid h-96 grid-rows-[7fr_3fr] overflow-hidden bg-card border border-border rounded-lg hover:border-accent transition-colors"
                     >
                       <div className="min-h-0 overflow-hidden">
-                        <MemberAvatar member={member} className="h-full w-full" />
+                        <MemberAvatar
+                          member={member}
+                          objectPosition="top"
+                          className="h-full w-full"
+                        />
                       </div>
                       <div className="flex min-h-0 flex-col overflow-hidden p-3">
                         <div className="min-h-0 flex-1 overflow-hidden">

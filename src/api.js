@@ -107,12 +107,13 @@ export const api = {
     if (!data.user) throw new Error('Sign up failed. Please try again.')
 
     if (!data.session) {
-      throw new Error(
-        'Account created. Check your email to confirm your address, then sign in.'
-      )
+      return { needsEmailVerification: true, email }
     }
 
-    return userFromSession(data.session)
+    return {
+      needsEmailVerification: false,
+      user: await userFromSession(data.session),
+    }
   },
 
   async login(email, password) {
@@ -215,9 +216,9 @@ export const api = {
     return rows?.length ? rows[0] : null
   },
 
-  async getApprovedCommentCount(memberId) {
+  async getCommentCount(memberId) {
     const rows = await restRequest(
-      `team_member_comments?select=id&team_member_id=eq.${memberId}&status=eq.approved`
+      `team_member_comments?select=id&team_member_id=eq.${memberId}`
     )
     return Array.isArray(rows) ? rows.length : 0
   },
@@ -272,10 +273,9 @@ export const api = {
     await restRequest(`team_members?id=eq.${id}`, { method: 'DELETE' })
   },
 
-  async getComments(memberId, onlyApproved = true) {
-    const statusFilter = onlyApproved ? '&status=eq.approved' : ''
+  async getComments(memberId) {
     return restRequest(
-      `team_member_comments?select=*&team_member_id=eq.${memberId}${statusFilter}&order=created_at.desc`
+      `team_member_comments?select=*&team_member_id=eq.${memberId}&order=created_at.desc`
     )
   },
 
@@ -344,5 +344,49 @@ export const api = {
 
     const { data: urlData } = client.storage.from('member-avatars').getPublicUrl(data.path)
     return urlData.publicUrl
+  },
+
+  async uploadCommentMedia(file, memberId) {
+    const client = requireClient()
+
+    const imageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const videoTypes = ['video/mp4', 'video/webm', 'video/quicktime']
+    const isImage = imageTypes.includes(file.type)
+    const isVideo = videoTypes.includes(file.type)
+
+    if (!isImage && !isVideo) {
+      throw new Error('Please upload an image (JPG, PNG, WebP, GIF) or video (MP4, WebM, MOV).')
+    }
+
+    const maxSize = isVideo ? 25 * 1024 * 1024 : 5 * 1024 * 1024
+    if (file.size > maxSize) {
+      throw new Error(isVideo ? 'Video must be smaller than 25 MB.' : 'Image must be smaller than 5 MB.')
+    }
+
+    const extByType = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/webp': 'webp',
+      'image/gif': 'gif',
+      'video/mp4': 'mp4',
+      'video/webm': 'webm',
+      'video/quicktime': 'mov',
+    }
+    const ext = extByType[file.type] || 'bin'
+    const path = `${memberId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+
+    const { data, error } = await client.storage.from('comment-media').upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: file.type,
+    })
+
+    if (error) throw new Error(error.message)
+
+    const { data: urlData } = client.storage.from('comment-media').getPublicUrl(data.path)
+    return {
+      url: urlData.publicUrl,
+      type: isVideo ? 'video' : 'image',
+    }
   },
 }

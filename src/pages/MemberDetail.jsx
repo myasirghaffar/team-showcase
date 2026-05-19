@@ -60,7 +60,11 @@ export default function MemberDetail() {
         ) : (
           <>
             <article className="mb-8 overflow-hidden rounded-xl border border-border bg-card shadow-lg">
-              <MemberAvatar member={member} className="h-64 w-full sm:h-80" />
+              <MemberAvatar
+                member={member}
+                objectPosition="top"
+                className="h-80 w-full sm:h-[26rem] md:h-[28rem]"
+              />
               <div className="border-b border-border bg-gradient-to-r from-accent/10 to-primary/10 px-6 py-6 sm:px-8">
                 <h1 className="text-3xl font-bold text-foreground">{member.name}</h1>
                 {member.role && (

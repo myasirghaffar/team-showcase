@@ -39,10 +39,14 @@ export const useAuthStore = create((set, get) => ({
   signUp: async (email, password, fullName) => {
     set({ loading: true, error: null })
     try {
-      const user = await api.signUp(email, password, fullName)
-      localStorage.setItem('user', JSON.stringify(user))
-      set({ user, loading: false })
-      return user
+      const result = await api.signUp(email, password, fullName)
+      if (result.needsEmailVerification) {
+        set({ loading: false, error: null })
+        return result
+      }
+      localStorage.setItem('user', JSON.stringify(result.user))
+      set({ user: result.user, loading: false })
+      return result
     } catch (err) {
       const error = err.message || 'Sign up failed'
       set({ error, loading: false })

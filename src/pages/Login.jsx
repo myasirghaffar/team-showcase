@@ -1,20 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../authStore'
-import { LogIn, AlertCircle, Eye, EyeOff } from 'lucide-react'
+import { LogIn, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'
 
 export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(() => location.state?.email || '')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(() => location.state?.message || null)
   const { login, error, clearError } = useAuthStore()
+
+  useEffect(() => {
+    if (location.state?.message) {
+      navigate(location.pathname, { replace: true, state: {} })
+    }
+  }, [location.pathname, location.state?.message, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     clearError()
+    setSuccessMessage(null)
     setLoading(true)
 
     try {
@@ -44,6 +52,16 @@ export default function Login() {
           <h1 className="text-3xl font-bold text-foreground">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Sign in to your account to continue</p>
         </div>
+
+        {successMessage && (
+          <div className="mb-6 flex gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+            <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
+            <div>
+              <p className="font-medium text-green-800">You&apos;re almost in!</p>
+              <p className="text-sm text-green-700">{successMessage}</p>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex gap-3">
@@ -104,7 +122,7 @@ export default function Login() {
           </div>
         </form>
 
-        <div className="mt-8 p-6 bg-accent/10/50 border border-border rounded-lg text-sm">
+        {/* <div className="mt-8 p-6 bg-accent/10/50 border border-border rounded-lg text-sm">
           <h3 className="font-semibold text-foreground mb-3">Test accounts</h3>
           <div className="space-y-2 text-muted-foreground">
             <p>
@@ -114,7 +132,7 @@ export default function Login() {
               <span className="font-medium text-foreground">User:</span> user@teamshowcase.dev / user123
             </p>
           </div>
-        </div>
+        </div> */}
 
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don&apos;t have an account?{' '}
