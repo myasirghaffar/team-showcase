@@ -74,7 +74,7 @@ export default function AppNavbar() {
               <button
                 type="button"
                 onClick={goToLogin}
-                className="horror-btn px-4 py-2 text-sm"
+                className="horror-btn hidden px-4 py-2 text-sm sm:inline-flex"
               >
                 Sign In
               </button>

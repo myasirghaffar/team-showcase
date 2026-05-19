@@ -228,9 +228,52 @@
     border-radius: 0.5rem;
     border: 1px solid var(--border);
     background-color: var(--card);
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
     text-align: center;
     box-shadow: var(--shadow-glow-sm);
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .horror-stat-card {
+      padding: 1.5rem;
+    }
+  }
+
+  .horror-stat-value {
+    font-size: 1.875rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .horror-stat-value--text {
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 640px) {
+    .horror-stat-value {
+      font-size: 1.875rem;
+    }
+
+    .horror-stat-value--text {
+      font-size: 1.875rem;
+    }
+  }
+
+  .horror-stat-label {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--muted-foreground);
+    word-break: break-word;
+  }
+
+  @media (min-width: 640px) {
+    .horror-stat-label {
+      font-size: 0.875rem;
+    }
   }
 
   .alert-error {

@@ -94,18 +94,18 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="mx-auto grid max-w-3xl grid-cols-3 gap-4 sm:gap-8">
+          <div className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-6">
             <div className="horror-stat-card">
-              <p className="text-3xl font-bold text-accent">{teams.length}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{UI.categories}</p>
+              <p className="horror-stat-value">{teams.length}</p>
+              <p className="horror-stat-label">{UI.categories}</p>
             </div>
             <div className="horror-stat-card">
-              <p className="text-3xl font-bold text-accent">{members.length}</p>
-              <p className="mt-1 text-sm text-muted-foreground">Profiles listed</p>
+              <p className="horror-stat-value">{members.length}</p>
+              <p className="horror-stat-label">Profiles listed</p>
             </div>
             <div className="horror-stat-card">
-              <p className="text-3xl font-bold text-accent">Open</p>
-              <p className="mt-1 text-sm text-muted-foreground">Evidence board</p>
+              <p className="horror-stat-value horror-stat-value--text">Open</p>
+              <p className="horror-stat-label">Evidence board</p>
             </div>
           </div>
         </div>
