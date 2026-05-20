@@ -10,6 +10,8 @@ import Account from './pages/Account'
 import AdminTeams from './pages/AdminTeams'
 import AdminMembers from './pages/AdminMembers'
 import AdminComments from './pages/AdminComments'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
@@ -20,12 +22,14 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/members/:memberId" element={<MemberDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
         {/* Protected User Routes */}
         <Route

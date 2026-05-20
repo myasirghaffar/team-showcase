@@ -111,17 +111,25 @@ export default function Signup() {
               </div>
             </div>
 
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+              By signing up, you agree to our{' '}
+              <Link to="/privacy-policy" className="text-accent hover:underline">
+                Privacy Policy &amp; Content Rules
+              </Link>
+              .
+            </p>
+
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 disabled:opacity-50 font-medium transition-colors mt-6"
+              className="horror-btn mt-4 w-full disabled:opacity-50"
             >
               {loading ? 'Creating account...' : 'Sign Up'}
             </button>
           </div>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <p className="mt-6 text-center text-sm" style={{ color: 'var(--muted-foreground)' }}>
           Already have an account?{' '}
           <Link to="/login" className="text-accent font-medium hover:underline">
             Sign in

@@ -4,6 +4,7 @@ import { UI } from '../constants'
 import { api } from '../api'
 import { useAuthStore } from '../authStore'
 import CommentMedia, { getCommentDisplayName } from './CommentMedia'
+import CommentTranslate from './CommentTranslate'
 import {
   canDeleteComment,
   trackMyComment,
@@ -179,7 +180,12 @@ export default function MemberCommentSection({ memberId }) {
                 )}
               </div>
               {comment.comment && (
-                <p className="mt-2 whitespace-pre-wrap text-foreground">{comment.comment}</p>
+                <>
+                  <p className="mt-2 whitespace-pre-wrap text-foreground" dir="auto">
+                    {comment.comment}
+                  </p>
+                  <CommentTranslate text={comment.comment} commentId={comment.id} />
+                </>
               )}
               <CommentMedia comment={comment} />
             </article>

@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.105.4",
     "@vitejs/plugin-react": "^6.0.2",
+    "franc": "^6.2.0",
     "lucide-react": "^0.564.0",
     "react": "^19",
     "react-dom": "^19",

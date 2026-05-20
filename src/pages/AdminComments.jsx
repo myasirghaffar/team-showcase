@@ -4,6 +4,7 @@ import { api } from '../api'
 import AdminSidebar from '../components/AdminSidebar'
 import AdminPageHeader from '../components/AdminPageHeader'
 import CommentMedia, { getCommentDisplayName } from '../components/CommentMedia'
+import CommentTranslate from '../components/CommentTranslate'
 
 export default function AdminComments() {
   const [comments, setComments] = useState([])
@@ -103,7 +104,12 @@ export default function AdminComments() {
                   </div>
 
                   {comment.comment && (
-                    <p className="mb-4 whitespace-pre-wrap text-foreground">{comment.comment}</p>
+                    <div className="mb-4">
+                      <p className="whitespace-pre-wrap text-foreground" dir="auto">
+                        {comment.comment}
+                      </p>
+                      <CommentTranslate text={comment.comment} commentId={comment.id} />
+                    </div>
                   )}
                   <CommentMedia comment={comment} className="mb-4" />
 
