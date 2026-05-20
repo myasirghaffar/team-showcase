@@ -248,7 +248,7 @@ export default function LandingPage() {
             style={{ color: 'var(--muted-foreground)' }}
           >
             <Search className="h-4 w-4 text-accent" />
-            &copy; 2026 {APP_NAME}. For informational purposes only.
+            &copy; 2020 {APP_NAME}. For informational purposes only.
           </p>
           <Link
             to="/privacy-policy"
