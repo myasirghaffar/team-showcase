@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { APP_NAME } from '../constants'
 
 export default function AppFooter() {
-  const year = new Date().getFullYear()
+  const year = 2020
 
   return (
     <footer
