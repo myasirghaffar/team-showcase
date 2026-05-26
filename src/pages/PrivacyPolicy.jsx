@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Shield } from 'lucide-react'
-import AppNavbar from '../components/AppNavbar'
-import { APP_NAME } from '../constants'
 import {
   PRIVACY_POLICY_INTRO,
   PRIVACY_POLICY_SECTIONS,
@@ -10,10 +8,7 @@ import {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="page-shell min-h-screen">
-      <AppNavbar />
-
-      <main className="horror-categories-section py-10 sm:py-14">
+    <div className="horror-categories-section py-10 sm:py-14">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <Link
             to="/"
@@ -50,14 +45,13 @@ export default function PrivacyPolicy() {
             ))}
           </ol>
 
-          <p
+          {/* <p
             className="mt-10 text-center text-xs"
             style={{ color: 'var(--muted-foreground)' }}
           >
-            &copy; 2026 {APP_NAME}. Last updated May 2026.
-          </p>
+            Last updated May 2026.
+          </p> */}
         </div>
-      </main>
     </div>
   )
 }

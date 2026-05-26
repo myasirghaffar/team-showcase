@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../authStore'
-import AppNavbar from '../components/AppNavbar'
 import { LogOut, Mail, AlertCircle, CheckCircle } from 'lucide-react'
 
 export default function Account() {
@@ -61,10 +60,7 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppNavbar />
-
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
        
 
         {success && (
@@ -200,7 +196,6 @@ export default function Account() {
             </div>
           </form>
         </div>
-      </div>
     </div>
   )
 }

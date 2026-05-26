@@ -8,11 +8,9 @@ import {
   ArrowRight,
   ShieldAlert,
   Fingerprint,
-  Search,
 } from 'lucide-react'
 import PublicMemberCard from '../components/PublicMemberCard'
-import AppNavbar from '../components/AppNavbar'
-import { APP_NAME, APP_TAGLINE, UI } from '../constants'
+import { APP_TAGLINE, UI } from '../constants'
 import { useAuthStore } from '../authStore'
 
 export default function LandingPage() {
@@ -56,9 +54,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="page-shell">
-      <AppNavbar />
-
+    <>
       <section className="horror-hero py-20 sm:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
@@ -240,24 +236,6 @@ export default function LandingPage() {
           )}
         </div>
       </section>
-
-      <footer className="border-t border-border py-8" style={{ backgroundColor: 'var(--card)' }}>
-        <div className="mx-auto max-w-7xl space-y-3 px-4 text-center sm:px-6 lg:px-8">
-          <p
-            className="flex items-center justify-center gap-2 text-sm"
-            style={{ color: 'var(--muted-foreground)' }}
-          >
-            <Search className="h-4 w-4 text-accent" />
-            &copy; 2020 {APP_NAME}. For informational purposes only.
-          </p>
-          <Link
-            to="/privacy-policy"
-            className="text-sm text-accent transition-colors hover:text-accent/80 hover:underline"
-          >
-            Privacy Policy &amp; Content Rules
-          </Link>
-        </div>
-      </footer>
-    </div>
+    </>
   )
 }

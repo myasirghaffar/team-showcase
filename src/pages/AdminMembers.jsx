@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Plus, Edit2, Trash2, AlertCircle, CheckCircle } from 'lucide-react'
 import { api } from '../api'
-import AdminSidebar from '../components/AdminSidebar'
 import AdminPageHeader from '../components/AdminPageHeader'
 import MemberAvatar from '../components/MemberAvatar'
 import MemberAvatarUpload from '../components/MemberAvatarUpload'
@@ -158,11 +157,7 @@ export default function AdminMembers() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
-      <AdminSidebar />
-
-      {/* Main Content */}
-      <main className="flex h-screen min-w-0 flex-1 flex-col md:ml-64">
+    <main className="flex min-h-0 flex-1 flex-col">
         <AdminPageHeader
           title={`Manage ${UI.criminalProfiles}`}
           description="Upload and edit criminal dossiers with photos and case details"
@@ -391,7 +386,6 @@ export default function AdminMembers() {
             </>
           )}
         </div>
-      </main>
-    </div>
+    </main>
   )
 }

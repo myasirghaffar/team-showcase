@@ -44,8 +44,7 @@ export default function Login() {
   }
 
   return (
-    <div className="page-shell flex min-h-screen items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
+    <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg border border-accent/40 bg-accent/20">
             <Skull className="h-6 w-6 text-accent" />
@@ -141,7 +140,6 @@ export default function Login() {
             Sign up
           </Link>
         </p>
-      </div>
     </div>
   )
 }

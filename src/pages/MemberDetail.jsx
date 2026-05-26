@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Mail, Phone, MapPin, Skull } from 'lucide-react'
 import { UI } from '../constants'
 import { api } from '../api'
-import AppNavbar from '../components/AppNavbar'
 import MemberAvatar from '../components/MemberAvatar'
 import MemberCommentSection from '../components/MemberCommentSection'
 
@@ -36,10 +35,7 @@ export default function MemberDetail() {
   }, [memberId])
 
   return (
-    <div className="page-shell">
-      <AppNavbar />
-
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={() => navigate(-1)}
@@ -117,7 +113,6 @@ export default function MemberDetail() {
             <MemberCommentSection memberId={member.id} />
           </>
         )}
-      </div>
     </div>
   )
 }

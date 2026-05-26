@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useAuthStore } from './authStore'
 import ProtectedRoute from './components/ProtectedRoute'
+import SiteLayout from './components/SiteLayout'
+import ScrollToTop from './components/ScrollToTop'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import LandingPage from './pages/LandingPage'
@@ -11,7 +13,6 @@ import AdminTeams from './pages/AdminTeams'
 import AdminMembers from './pages/AdminMembers'
 import AdminComments from './pages/AdminComments'
 import PrivacyPolicy from './pages/PrivacyPolicy'
-import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
@@ -24,51 +25,49 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/members/:memberId" element={<MemberDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route element={<SiteLayout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/members/:memberId" element={<MemberDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-        {/* Protected User Routes */}
-        <Route
-          path="/account"
-          element={
-            <ProtectedRoute>
-              <Account />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Admin Routes */}
-        <Route
-          path="/admin/teams"
-          element={
-            <ProtectedRoute adminOnly>
-              <AdminTeams />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/members"
-          element={
-            <ProtectedRoute adminOnly>
-              <AdminMembers />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/comments"
-          element={
-            <ProtectedRoute adminOnly>
-              <AdminComments />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin/teams"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminTeams />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/members"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminMembers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/comments"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminComments />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Catch-all */}
-        <Route path="*" element={<LandingPage />} />
+          <Route path="*" element={<LandingPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

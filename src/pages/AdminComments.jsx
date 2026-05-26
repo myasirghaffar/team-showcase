@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Trash2, AlertCircle, CheckCircle } from 'lucide-react'
 import { api } from '../api'
-import AdminSidebar from '../components/AdminSidebar'
 import AdminPageHeader from '../components/AdminPageHeader'
 import CommentMedia, { getCommentDisplayName } from '../components/CommentMedia'
 import CommentTranslate from '../components/CommentTranslate'
@@ -42,10 +41,7 @@ export default function AdminComments() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
-      <AdminSidebar />
-
-      <main className="flex h-screen min-w-0 flex-1 flex-col md:ml-64">
+    <main className="flex min-h-0 flex-1 flex-col">
         <AdminPageHeader
           title="Manage evidence reports"
           description="Review and remove inappropriate or false reports"
@@ -126,7 +122,6 @@ export default function AdminComments() {
             </div>
           )}
         </div>
-      </main>
-    </div>
+    </main>
   )
 }
