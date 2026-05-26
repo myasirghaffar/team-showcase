@@ -100,3 +100,45 @@ CREATE POLICY "Public delete comments" ON team_member_comments FOR DELETE USING 
 CREATE POLICY "Public read profiles" ON profiles FOR SELECT USING (true);
 CREATE POLICY "Users insert own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 CREATE POLICY "Users update own profile" ON profiles FOR UPDATE USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+
+-- Blog articles & comments
+CREATE TABLE blog_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  excerpt TEXT,
+  content TEXT NOT NULL,
+  author_name TEXT NOT NULL DEFAULT 'Crime Dossier Editorial',
+  cover_image_url TEXT,
+  published_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE blog_post_comments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  blog_post_id UUID NOT NULL REFERENCES blog_posts(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  name TEXT,
+  email TEXT,
+  comment TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'approved' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX blog_posts_slug_idx ON blog_posts(slug);
+CREATE INDEX blog_posts_published_at_idx ON blog_posts(published_at DESC);
+CREATE INDEX blog_post_comments_post_id_idx ON blog_post_comments(blog_post_id);
+
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_post_comments ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read blog_posts" ON blog_posts FOR SELECT USING (true);
+CREATE POLICY "Public insert blog_posts" ON blog_posts FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public update blog_posts" ON blog_posts FOR UPDATE USING (true) WITH CHECK (true);
+CREATE POLICY "Public delete blog_posts" ON blog_posts FOR DELETE USING (true);
+
+CREATE POLICY "Public read blog_post_comments" ON blog_post_comments FOR SELECT USING (true);
+CREATE POLICY "Public insert blog_post_comments" ON blog_post_comments FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public update blog_post_comments" ON blog_post_comments FOR UPDATE USING (true) WITH CHECK (true);
+CREATE POLICY "Public delete blog_post_comments" ON blog_post_comments FOR DELETE USING (true);

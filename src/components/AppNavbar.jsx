@@ -27,6 +27,12 @@ export default function AppNavbar() {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-4">
+          <Link
+            to="/blog"
+            className="hidden text-sm font-medium text-white/90 transition-colors hover:text-white sm:inline-block"
+          >
+            Articles
+          </Link>
           {user ? (
             <>
               <Link

@@ -29,4 +29,6 @@ export const UI = {
   lastKnownLocation: 'Last known location',
   reports: 'Reports',
   evidence: 'Evidence',
+  articles: 'Articles',
+  article: 'Article',
 }

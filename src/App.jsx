@@ -13,6 +13,8 @@ import AdminTeams from './pages/AdminTeams'
 import AdminMembers from './pages/AdminMembers'
 import AdminComments from './pages/AdminComments'
 import PrivacyPolicy from './pages/PrivacyPolicy'
+import BlogsPage from './pages/BlogsPage'
+import BlogDetailPage from './pages/BlogDetailPage'
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
@@ -31,6 +33,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/blog" element={<BlogsPage />} />
+          <Route path="/blog/:slug" element={<BlogDetailPage />} />
 
           <Route
             path="/account"

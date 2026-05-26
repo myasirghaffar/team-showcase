@@ -346,6 +346,45 @@ export const api = {
     return urlData.publicUrl
   },
 
+  async getBlogPosts({ limit } = {}) {
+    let path = 'blog_posts?select=*&order=published_at.desc'
+    if (limit) path += `&limit=${limit}`
+    return restRequest(path)
+  },
+
+  async getBlogPostBySlug(slug) {
+    const rows = await restRequest(
+      `blog_posts?select=*&slug=eq.${encodeURIComponent(slug)}&limit=1`
+    )
+    return rows?.length ? rows[0] : null
+  },
+
+  async getBlogCommentCount(postId) {
+    const rows = await restRequest(
+      `blog_post_comments?select=id&blog_post_id=eq.${postId}&status=eq.approved`
+    )
+    return Array.isArray(rows) ? rows.length : 0
+  },
+
+  async getBlogComments(postId) {
+    return restRequest(
+      `blog_post_comments?select=*&blog_post_id=eq.${postId}&status=eq.approved&order=created_at.desc`
+    )
+  },
+
+  async addBlogComment(commentData) {
+    const rows = await restRequest('blog_post_comments', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify(commentData),
+    })
+    return Array.isArray(rows) ? rows[0] : rows
+  },
+
+  async deleteBlogComment(id) {
+    await restRequest(`blog_post_comments?id=eq.${id}`, { method: 'DELETE' })
+  },
+
   async uploadCommentMedia(file, memberId) {
     const client = requireClient()
 

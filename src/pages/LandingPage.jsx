@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api'
 import {
   Skull,
-  FileWarning,
   Eye,
   ArrowRight,
   ShieldAlert,
   Fingerprint,
+  BookOpen,
 } from 'lucide-react'
 import PublicMemberCard from '../components/PublicMemberCard'
+import BlogCard from '../components/BlogCard'
 import { APP_TAGLINE, UI } from '../constants'
 import { useAuthStore } from '../authStore'
 
@@ -21,6 +22,8 @@ export default function LandingPage() {
   const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [blogPosts, setBlogPosts] = useState([])
+  const [blogsLoading, setBlogsLoading] = useState(true)
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -41,6 +44,21 @@ export default function LandingPage() {
       }
     }
     fetchCategories()
+  }, [])
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setBlogsLoading(true)
+        const data = await api.getBlogPosts({ limit: 4 })
+        setBlogPosts(data || [])
+      } catch (err) {
+        console.error('[crime-dossier] Error fetching articles:', err)
+      } finally {
+        setBlogsLoading(false)
+      }
+    }
+    fetchBlogs()
   }, [])
 
   const handleCategorySelect = async (team) => {
@@ -217,6 +235,37 @@ export default function LandingPage() {
           </div>
         </div>
       </section> */}
+
+      <section id="articles-section" className="border-t border-border py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center">
+            <BookOpen className="mx-auto mb-4 h-10 w-10 text-accent" />
+            <h2 className="horror-heading mb-4 text-3xl sm:text-4xl">Crime {UI.articles}</h2>
+            <p className="mx-auto max-w-2xl text-muted-foreground">
+              Investigative essays on profiling, cold cases, fraud networks, and famous unsolved crimes.
+            </p>
+          </div>
+
+          {blogsLoading ? (
+            <p className="text-center text-muted-foreground">Loading articles...</p>
+          ) : blogPosts.length > 0 ? (
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+                {blogPosts.map((post) => (
+                  <BlogCard key={post.id} post={post} />
+                ))}
+              </div>
+              <div className="mt-10 text-center">
+                <Link to="/blog" className="horror-btn-outline inline-flex items-center gap-2">
+                  View all articles <ArrowRight className="h-5 w-5" />
+                </Link>
+              </div>
+            </>
+          ) : (
+            <p className="text-center text-muted-foreground">No articles available yet.</p>
+          )}
+        </div>
+      </section>
 
       <section className="horror-categories-section py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
